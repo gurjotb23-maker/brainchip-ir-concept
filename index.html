@@ -973,11 +973,11 @@
         <!-- ── Decode the Deck ── -->
         <div class="decode-toggle">
           <div class="decode-toggle-header">
-            <button class="decode-btn" id="decodeBtn">🔍 Decode the Deck</button>
+            <button class="decode-btn" id="decode-btn">🔍 Decode the Deck</button>
           </div>
 
           <!-- Panel 1: What BRN shows you -->
-          <div class="decode-panel is-visible" id="panelDeck">
+          <div class="decode-panel is-visible" id="deck-panel-1">
             <div class="dt-slide">
               <div class="dt-slide-bar">
                 <div class="dt-dots"><span></span><span></span><span></span></div>
@@ -1017,7 +1017,7 @@
           </div>
 
           <!-- Panel 2: What you actually need -->
-          <div class="decode-panel is-hidden" id="panelScorecard">
+          <div class="decode-panel is-hidden" id="deck-panel-2" style="display:none">
             <div class="dt-scorecard">
               <div class="dt-scorecard-header">
                 <div class="dt-scorecard-title">What this update should have said</div>
@@ -1229,25 +1229,21 @@
 
 
   <script>
-    (function () {
-      var btn = document.getElementById('decodeBtn');
-      var panelDeck = document.getElementById('panelDeck');
-      var panelScorecard = document.getElementById('panelScorecard');
-      var showingDeck = true;
+    const panel1 = document.getElementById('deck-panel-1');
+    const panel2 = document.getElementById('deck-panel-2');
+    const btn = document.getElementById('decode-btn');
 
-      btn.addEventListener('click', function () {
-        if (showingDeck) {
-          panelDeck.classList.replace('is-visible', 'is-hidden');
-          panelScorecard.classList.replace('is-hidden', 'is-visible');
-          btn.textContent = '← See what BRN actually shows';
-        } else {
-          panelScorecard.classList.replace('is-visible', 'is-hidden');
-          panelDeck.classList.replace('is-hidden', 'is-visible');
-          btn.textContent = '🔍 Decode the Deck';
-        }
-        showingDeck = !showingDeck;
-      });
-    })();
+    btn.addEventListener('click', function () {
+      if (panel1.style.display === 'none') {
+        panel1.style.display = 'block';
+        panel2.style.display = 'none';
+        btn.textContent = '🔍 Decode the Deck';
+      } else {
+        panel1.style.display = 'none';
+        panel2.style.display = 'block';
+        btn.textContent = '← See what BRN actually shows';
+      }
+    });
   </script>
 
 </body>
