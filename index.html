@@ -49,7 +49,7 @@
     }
 
     section {
-      padding: 96px 0;
+      padding: 72px 0;
       border-bottom: 1px solid var(--border-subtle);
     }
 
@@ -100,7 +100,7 @@
 
     /* ── Hero ── */
     #hero {
-      padding: 120px 0 100px;
+      padding: 96px 0 40px;
       border-bottom: 1px solid var(--border-subtle);
     }
 
@@ -168,7 +168,7 @@
 
     /* ── Callout / Pullquote ── */
     #gap {
-      padding: 80px 0;
+      padding: 56px 0;
     }
 
     .pullquote {
@@ -467,7 +467,7 @@
 
     /* ── Stats row ── */
     #stats {
-      padding: 56px 0;
+      padding: 28px 0;
       border-bottom: 1px solid var(--border-subtle);
     }
 
@@ -478,7 +478,7 @@
     }
 
     .stat-item {
-      padding: 24px 28px 24px 0;
+      padding: 16px 20px 16px 0;
       border-right: 1px solid var(--border-subtle);
     }
 
@@ -493,19 +493,18 @@
 
     .stat-number {
       display: block;
-      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-size: clamp(1.5rem, 3.5vw, 2.1rem);
       font-weight: 800;
       color: var(--accent);
       letter-spacing: -0.03em;
       line-height: 1;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .stat-label {
-      font-size: 0.75rem;
+      font-size: 0.6875rem;
       color: var(--text-faint);
-      line-height: 1.5;
-      max-width: 140px;
+      line-height: 1.45;
     }
 
     @media (max-width: 600px) {
@@ -516,7 +515,7 @@
       }
       .stat-item {
         background: var(--bg);
-        padding: 24px 20px;
+        padding: 18px 16px;
         border-right: none;
       }
     }
@@ -672,21 +671,18 @@
     .decode-btn:hover { background: #bf7916; }
     .decode-btn:active { transform: scale(0.98); }
 
-    .decode-panel {
-      overflow: hidden;
-      transition: max-height 0.42s ease, opacity 0.3s ease;
+    .decode-panel.is-hidden {
+      display: none;
     }
 
     .decode-panel.is-visible {
-      max-height: 1400px;
-      opacity: 1;
-      pointer-events: auto;
+      display: block;
+      animation: panelIn 0.22s ease;
     }
 
-    .decode-panel.is-hidden {
-      max-height: 0;
-      opacity: 0;
-      pointer-events: none;
+    @keyframes panelIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
     /* State 1 — fake deck slide */
