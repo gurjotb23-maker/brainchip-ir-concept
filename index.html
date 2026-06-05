@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BRN IR Audit — Gurjot Bains</title>
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg:        #0a0a0a;
+      --bg-raised: #111111;
+      --bg-card:   #161616;
+      --border:    #222222;
+      --border-subtle: #1a1a1a;
+      --text:      #e8e8e8;
+      --text-muted: #888888;
+      --text-faint: #555555;
+      --accent:    #f5a623;
+      --accent-dim: rgba(245, 166, 35, 0.12);
+      --accent-border: rgba(245, 166, 35, 0.3);
+      --red:       #e05252;
+      --red-dim:   rgba(224, 82, 82, 0.1);
+      --font: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --radius: 8px;
+      --max-w: 760px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Layout helpers ── */
+    .container {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    section {
+      padding: 96px 0;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    section:last-of-type { border-bottom: none; }
+
+    /* ── Typography ── */
+    .label {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      color: #ffffff;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      font-size: clamp(1.3rem, 3vw, 1.75rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: #ffffff;
+      margin-bottom: 16px;
+    }
+
+    h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    p {
+      color: var(--text-muted);
+      line-height: 1.75;
+      font-size: 0.9375rem;
+    }
+
+    p + p { margin-top: 14px; }
+
+    /* ── Hero ── */
+    #hero {
+      padding: 120px 0 100px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .hero-sub {
+      font-size: clamp(0.9375rem, 2vw, 1.0625rem);
+      color: var(--text-muted);
+      line-height: 1.7;
+      max-width: 600px;
+      margin-top: 4px;
+    }
+
+    /* ── Section header ── */
+    .section-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      margin-bottom: 10px;
+    }
+
+    /* ── Company section ── */
+    #company p {
+      max-width: 640px;
+    }
+
+    /* ── Problems ── */
+    .problems-list {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      margin-top: 40px;
+    }
+
+    .problem-item {
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .problem-number {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+      padding-top: 3px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .problem-body {}
+
+    .problem-title {
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .problem-body p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* ── Callout / Pullquote ── */
+    #gap {
+      padding: 80px 0;
+    }
+
+    .pullquote {
+      position: relative;
+      padding: 48px 40px;
+      border: 1px solid var(--accent-border);
+      border-radius: var(--radius);
+      background: var(--accent-dim);
+      max-width: 640px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .pullquote::before {
+      content: '"';
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 5rem;
+      color: var(--accent);
+      line-height: 1;
+      font-family: Georgia, serif;
+      opacity: 0.4;
+    }
+
+    .pullquote p {
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      font-style: italic;
+      color: var(--text);
+      line-height: 1.65;
+    }
+
+    /* ── Fix / Scorecard ── */
+    #fix {}
+
+    .fix-subheading {
+      font-size: 0.9375rem;
+      color: var(--accent);
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      margin-bottom: 20px;
+    }
+
+    #fix > .container > p {
+      max-width: 600px;
+      margin-bottom: 40px;
+    }
+
+    /* Scorecard component */
+    .scorecard {
+      margin-top: 40px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--bg-card);
+      overflow: hidden;
+    }
+
+    .scorecard-header {
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .scorecard-title {
+      font-size: 0.9375rem;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: -0.01em;
+    }
+
+    .scorecard-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .scorecard-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: var(--accent-dim);
+      color: var(--accent);
+      border: 1px solid var(--accent-border);
+    }
+
+    .scorecard-badge .dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .scorecard-disclaimer {
+      font-size: 10.5px;
+      color: var(--text-faint);
+      line-height: 1.5;
+      font-style: italic;
+    }
+
+    .scorecard-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+    }
+
+    .metric-card {
+      background: var(--bg-card);
+      padding: 24px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .metric-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+    }
+
+    .metric-value {
+      font-size: 0.875rem;
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    .metric-card.flagged .metric-label {
+      color: var(--red);
+    }
+
+    .metric-card.flagged {
+      background: var(--red-dim);
+    }
+
+    .metric-card.flagged .metric-value {
+      color: #cc8888;
+    }
+
+    .scorecard-footer {
+      padding: 16px 28px;
+      border-top: 1px solid var(--border);
+    }
+
+    .scorecard-footer p {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* ── AI Log ── */
+    #ai-log .log-entries {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      margin-top: 32px;
+    }
+
+    .log-entry {
+      border-left: 2px solid var(--border);
+      padding-left: 20px;
+    }
+
+    .log-entry h3 {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+    }
+
+    .log-entry p {
+      font-size: 0.9rem;
+    }
+
+    /* ── Footer ── */
+    footer {
+      padding: 40px 0 60px;
+    }
+
+    footer p {
+      font-size: 0.8125rem;
+      color: var(--text-faint);
+      line-height: 1.7;
+    }
+
+    footer a {
+      color: var(--text-faint);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 0 24px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      background: rgba(10, 10, 10, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .nav-inner {
+      max-width: var(--max-w);
+      width: 100%;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-ticker {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+    }
+
+    .nav-name {
+      font-size: 12px;
+      color: var(--text-faint);
+    }
+
+    .nav-tag {
+      font-size: 11px;
+      color: var(--text-faint);
+      letter-spacing: 0.03em;
+    }
+
+    /* ── Divider rule ── */
+    .rule {
+      border: none;
+      border-top: 1px solid var(--border-subtle);
+      margin: 0;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      section { padding: 64px 0; }
+
+      #hero { padding: 88px 0 72px; }
+
+      h1 { letter-spacing: -0.025em; }
+
+      .problem-item {
+        grid-template-columns: 32px 1fr;
+        gap: 14px;
+      }
+
+      .scorecard-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .metric-card {
+        padding: 20px 22px;
+      }
+
+      .scorecard-header {
+        padding: 20px 22px 16px;
+      }
+
+      .scorecard-footer {
+        padding: 14px 22px;
+      }
+
+      .pullquote {
+        padding: 36px 28px;
+      }
+    }
+
+    /* ── Subtle top-border accent on hero ── */
+    #hero::before {
+      content: '';
+      display: block;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent) 0%, transparent 60%);
+      width: 100%;
+      position: absolute;
+      top: 52px;
+      left: 0;
+    }
+    #hero { position: relative; }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-inner">
+      <div class="nav-brand">
+        <span class="nav-ticker">BRN</span>
+        <span class="nav-name">BrainChip Holdings · ASX</span>
+      </div>
+      <span class="nav-tag">Concept IR Audit</span>
+    </div>
+  </nav>
+
+  <!-- ─────────────────────────────── SECTION 1 — HERO -->
+  <section id="hero">
+    <div class="container">
+      <div class="label">BRN · ASX · Concept IR Audit — Gurjot Bains</div>
+      <h1>BrainChip can't tell you how much it earned.</h1>
+      <p class="hero-sub">
+        A $341M company. A retail-dominated register. And an investor deck that shows you a
+        $163B market opportunity but won't tell you a single dollar of revenue.
+      </p>
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────── SECTION 2 — THE COMPANY -->
+  <section id="company">
+    <div class="container">
+      <div class="section-eyebrow">Background</div>
+      <h2>Who is BrainChip?</h2>
+      <p>
+        BrainChip Holdings (ASX: BRN) makes neuromorphic AI chips — specifically the Akida
+        processor, designed for ultra-low-power edge AI inference. Partners include ARM,
+        Mercedes-Benz, NASA and Nvidia. It's one of Australia's most retail-heavy tech stocks,
+        with ~95% of its register held by retail investors. Market cap: ~A$341M.
+      </p>
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────── SECTION 3 — THE DIAGNOSIS -->
+  <section id="diagnosis">
+    <div class="container">
+      <div class="section-eyebrow">The Diagnosis</div>
+      <h2>What's broken</h2>
+
+      <div class="problems-list">
+
+        <div class="problem-item">
+          <span class="problem-number">01</span>
+          <div class="problem-body">
+            <p class="problem-title">The deck is a marketing pitch, not an investor update</p>
+            <p>
+              Every quarterly update leads with TAM charts ($163B, $84B market sizes), a logo
+              salad of partners, and aspirational language. There is no revenue disclosure, no
+              named paying customers vs research partners, no unit shipment numbers, no cash runway
+              in plain English. Retail holders cannot answer the most basic question: is this
+              business growing?
+            </p>
+          </div>
+        </div>
+
+        <div class="problem-item">
+          <span class="problem-number">02</span>
+          <div class="problem-body">
+            <p class="problem-title">The capital raise contradiction</p>
+            <p>
+              In November 2025, BrainChip raised A$35M from institutions at A$0.175 — a 10.3%
+              discount. Weeks later, retail shareholders were offered a Share Purchase Plan capped
+              at A$2M at a near 52-week low. The SPP closed at A$2.976M. Then a US$25M raise
+              followed in December. Retail got the worst terms, the least capital, and no
+              explanation of why the raises were structured this way.
+            </p>
+          </div>
+        </div>
+
+        <div class="problem-item">
+          <span class="problem-number">03</span>
+          <div class="problem-body">
+            <p class="problem-title">Shareholders said it out loud and nothing changed</p>
+            <p>
+              At the 2025 AGM, shareholders voted 76.6% against the remuneration report — the
+              third consecutive strike. Attendees explicitly named communication, executive
+              compensation, and share price performance as concerns. The company's response was
+              silence. No town hall. No plain-English letter to holders. No acknowledgment.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────── SECTION 4 — THE GAP -->
+  <section id="gap">
+    <div class="container">
+      <div class="pullquote">
+        <p>
+          BrainChip's problem isn't that they say nothing. It's that they say a lot — to
+          the wrong audience, in the wrong format, about the wrong things.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────── SECTION 5 — THE FIX -->
+  <section id="fix">
+    <div class="container">
+      <div class="section-eyebrow">The Fix</div>
+      <h2>What I'd do about it</h2>
+      <p class="fix-subheading">One page. Every quarter. No excuses.</p>
+
+      <p>
+        The fix isn't a rebrand or a new agency. It's a Retail Shareholder Scorecard — a
+        one-page plain-English operating update that BrainChip should publish every quarter
+        alongside its ASX lodgement. No jargon, no TAM charts, no logo salad. Just the four
+        things every retail holder needs to know: how much cash is left, whether revenue is
+        moving, what the pipeline actually looks like, and what's coming next.
+      </p>
+
+      <!-- Scorecard Component -->
+      <div class="scorecard">
+
+        <div class="scorecard-header">
+          <div class="scorecard-title">BrainChip Retail Scorecard — Q3 FY2025</div>
+          <div class="scorecard-meta">
+            <span class="scorecard-badge"><span class="dot"></span>Concept</span>
+          </div>
+          <p class="scorecard-disclaimer">
+            This is a concept document produced for the InvestorHub GTM Internship task.
+            Figures are illustrative only.
+          </p>
+        </div>
+
+        <div class="scorecard-grid">
+
+          <div class="metric-card">
+            <span class="metric-label">Cash &amp; Runway</span>
+            <p class="metric-value">
+              A$13.2M cash on hand. At current burn, ~8 months runway. Next capital
+              decision expected: Q2 FY2026.
+            </p>
+          </div>
+
+          <div class="metric-card flagged">
+            <span class="metric-label">Revenue</span>
+            <p class="metric-value">
+              Not yet disclosed by the company. This field should show: quarterly
+              revenue, YoY growth, and which segment it came from.
+            </p>
+          </div>
+
+          <div class="metric-card flagged">
+            <span class="metric-label">Design Wins</span>
+            <p class="metric-value">
+              3 active design-win engagements disclosed. 0 named as paying. Investors
+              cannot distinguish pipeline from revenue.
+            </p>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-label">What's Next</span>
+            <p class="metric-value">
+              Akida 2 sampling underway. CES 2026 showcase planned. No timeline given
+              for first commercial shipment.
+            </p>
+          </div>
+
+        </div>
+
+        <div class="scorecard-footer">
+          <p>
+            This took 20 minutes to produce from public information. BrainChip could
+            publish this every quarter. They choose not to.
+          </p>
+        </div>
+
+      </div>
+      <!-- /scorecard -->
+
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────── SECTION 6 — AI LOG -->
+  <section id="ai-log">
+    <div class="container">
+      <div class="section-eyebrow">Process</div>
+      <h2>AI Log</h2>
+      <p style="margin-bottom: 0;">How I used AI for this task</p>
+
+      <div class="log-entries">
+
+        <div class="log-entry">
+          <h3>What I used it for</h3>
+          <p>
+            I used Claude to run a parallel research sweep across ASX sub-$500M companies,
+            scoring candidates on a crisis-comms and IR-failure rubric: sharpness of the retail
+            impact, specificity of the failure, viability of the company, and demonstrability
+            of the fix. BrainChip surfaced because its failure is a content and transparency
+            choice — independently documented, quotable, and directly fixable — not just a
+            generic "boring PDFs" problem.
+          </p>
+        </div>
+
+        <div class="log-entry">
+          <h3>What didn't work</h3>
+          <p>
+            Early research passes over-indexed on dramatic share price drops, which kept
+            returning distressed shells where an IR fix is meaningless. I added a viability
+            gate explicitly. Claude also initially conflated BRN's research partners with
+            paying customers — the exact same mistake BrainChip's own deck makes — which I
+            caught and corrected, and which sharpened the diagnosis.
+          </p>
+        </div>
+
+        <div class="log-entry">
+          <h3>Most useful workflow</h3>
+          <p>
+            Fan-out then adversarial verify: use AI to generate many candidates quickly, then
+            use it to stress-test the diagnosis of the finalist. The most useful prompt forced
+            a trade-off: "What's the single most specific, defensible, non-obvious IR failure
+            here — and what evidence would collapse the argument?" That question cut through
+            generic observations and surfaced the capital-raise contradiction as the sharpest
+            proof point.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────── FOOTER -->
+  <footer>
+    <div class="container">
+      <hr class="rule" style="margin-bottom: 24px;" />
+      <p>
+        Concept IR audit produced for the InvestorHub GTM Internship hiring task &middot;
+        June 2026 &middot; Gurjot Bains &middot; Not affiliated with BrainChip Holdings
+        &middot; All figures from public ASX disclosures
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>
