@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BRN IR Audit — Gurjot Bains</title>
+  <title>BRN IR Audit — Gurjot Barring</title>
   <style>
     *, *::before, *::after {
       box-sizing: border-box;
@@ -465,6 +465,372 @@
       }
     }
 
+    /* ── Stats row ── */
+    #stats {
+      padding: 56px 0;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+    }
+
+    .stat-item {
+      padding: 24px 28px 24px 0;
+      border-right: 1px solid var(--border-subtle);
+    }
+
+    .stat-item:last-child {
+      border-right: none;
+      padding-right: 0;
+    }
+
+    .stat-item:first-child {
+      padding-left: 0;
+    }
+
+    .stat-number {
+      display: block;
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-weight: 800;
+      color: var(--accent);
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--text-faint);
+      line-height: 1.5;
+      max-width: 140px;
+    }
+
+    @media (max-width: 600px) {
+      .stats-row {
+        grid-template-columns: 1fr 1fr;
+        gap: 1px;
+        background: var(--border-subtle);
+      }
+      .stat-item {
+        background: var(--bg);
+        padding: 24px 20px;
+        border-right: none;
+      }
+    }
+
+    /* ── Fake slide mockup ── */
+    .fake-slide {
+      margin-top: 28px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #f2f2f2;
+      overflow: hidden;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+    }
+
+    .fake-slide-bar {
+      background: #e6e6e6;
+      border-bottom: 1px solid var(--border);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .fake-slide-dots {
+      display: flex;
+      gap: 5px;
+    }
+
+    .fake-slide-dots span {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ccc;
+      display: block;
+    }
+
+    .fake-slide-filename {
+      font-size: 10.5px;
+      color: #aaa;
+      letter-spacing: 0.03em;
+      margin-left: 4px;
+    }
+
+    .fake-slide-body {
+      padding: 28px 32px 24px;
+    }
+
+    .fake-slide-title {
+      font-size: 0.8125rem;
+      font-weight: 700;
+      color: #888;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .fake-slide-tam {
+      margin-bottom: 24px;
+    }
+
+    .fake-slide-tam-number {
+      font-size: clamp(2.5rem, 7vw, 4rem);
+      font-weight: 800;
+      color: #c8c8c8;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      display: block;
+    }
+
+    .fake-slide-tam-label {
+      font-size: 0.75rem;
+      color: #bbb;
+      margin-top: 4px;
+      display: block;
+      letter-spacing: 0.02em;
+    }
+
+    .fake-slide-logos {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .logo-box {
+      background: #e4e4e4;
+      border: 1px solid #d8d8d8;
+      border-radius: 5px;
+      padding: 7px 14px;
+      font-size: 10px;
+      font-weight: 700;
+      color: #bbb;
+      letter-spacing: 0.06em;
+    }
+
+    .fake-slide-missing {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .missing-field {
+      background: rgba(185, 64, 64, 0.08);
+      border: 1px solid rgba(185, 64, 64, 0.2);
+      border-radius: 5px;
+      padding: 10px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .missing-field-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: #b94040;
+      opacity: 0.7;
+    }
+
+    .missing-field-value {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #c06060;
+    }
+
+    @media (max-width: 600px) {
+      .fake-slide-body { padding: 20px 20px 18px; }
+      .fake-slide-missing { grid-template-columns: 1fr; }
+    }
+
+    /* ── Decode the Deck toggle ── */
+    .decode-toggle-header {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 14px;
+    }
+
+    .decode-btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 22px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      font-family: var(--font);
+      cursor: pointer;
+      letter-spacing: 0.01em;
+      transition: background 0.15s ease, transform 0.1s ease;
+    }
+
+    .decode-btn:hover { background: #bf7916; }
+    .decode-btn:active { transform: scale(0.98); }
+
+    .decode-panel {
+      overflow: hidden;
+      transition: max-height 0.42s ease, opacity 0.3s ease;
+    }
+
+    .decode-panel.is-visible {
+      max-height: 1400px;
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .decode-panel.is-hidden {
+      max-height: 0;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* State 1 — fake deck slide */
+    .dt-slide {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #f2f2f2;
+      overflow: hidden;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+    }
+
+    .dt-slide-bar {
+      background: #e6e6e6;
+      border-bottom: 1px solid var(--border);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dt-dots { display: flex; gap: 5px; }
+    .dt-dots span {
+      width: 8px; height: 8px;
+      border-radius: 50%; background: #ccc; display: block;
+    }
+
+    .dt-filename {
+      font-size: 10.5px; color: #aaa;
+      letter-spacing: 0.03em; margin-left: 4px;
+    }
+
+    .dt-slide-body { padding: 28px 32px 24px; }
+
+    .dt-slide-heading {
+      font-size: 0.8125rem; font-weight: 700;
+      color: #888; letter-spacing: 0.04em;
+      text-transform: uppercase; margin-bottom: 20px;
+    }
+
+    .dt-tam-num {
+      display: block;
+      font-size: clamp(2.5rem, 7vw, 4rem);
+      font-weight: 800; color: #c8c8c8;
+      letter-spacing: -0.04em; line-height: 1;
+    }
+
+    .dt-tam-label {
+      display: block; font-size: 0.75rem;
+      color: #bbb; margin-top: 4px;
+      letter-spacing: 0.02em; margin-bottom: 20px;
+    }
+
+    .dt-partners-heading {
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: #c0c0c0; margin-bottom: 8px;
+    }
+
+    .dt-logos {
+      display: flex; gap: 8px;
+      margin-bottom: 20px; flex-wrap: wrap;
+    }
+
+    .dt-logo {
+      background: #e4e4e4; border: 1px solid #d8d8d8;
+      border-radius: 5px; padding: 7px 14px;
+      font-size: 10px; font-weight: 700;
+      color: #bbb; letter-spacing: 0.06em;
+    }
+
+    .dt-missing { display: flex; flex-direction: column; gap: 6px; }
+
+    .dt-missing-row {
+      background: rgba(185, 64, 64, 0.08);
+      border: 1px solid rgba(185, 64, 64, 0.2);
+      border-radius: 5px; padding: 10px 14px;
+      display: flex; align-items: center;
+      justify-content: space-between;
+    }
+
+    .dt-missing-key {
+      font-size: 11px; font-weight: 600;
+      color: #b94040; opacity: 0.8;
+      letter-spacing: 0.02em;
+    }
+
+    .dt-missing-val {
+      font-size: 1.1rem; font-weight: 700; color: #c06060;
+    }
+
+    /* State 2 — scorecard */
+    .dt-scorecard {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--bg-raised);
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+
+    .dt-scorecard-header {
+      padding: 20px 24px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .dt-scorecard-title {
+      font-size: 0.9375rem; font-weight: 700;
+      color: var(--text); letter-spacing: -0.01em;
+      margin-bottom: 4px;
+    }
+
+    .dt-scorecard-sub {
+      font-size: 11px; color: var(--text-faint); font-style: italic;
+    }
+
+    .dt-sc-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1px; background: var(--border);
+    }
+
+    .dt-metric {
+      padding: 20px 24px;
+      display: flex; flex-direction: column; gap: 7px;
+    }
+
+    .dt-metric.green { background: rgba(34, 120, 74, 0.08); }
+    .dt-metric.red   { background: rgba(185, 64, 64, 0.06); }
+
+    .dt-metric-lbl {
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+    }
+
+    .dt-metric.green .dt-metric-lbl { color: #1e6b42; }
+    .dt-metric.red   .dt-metric-lbl { color: var(--red); }
+
+    .dt-metric-val { font-size: 0.875rem; line-height: 1.55; }
+    .dt-metric.green .dt-metric-val { color: #2a5a3a; }
+    .dt-metric.red   .dt-metric-val { color: #7a4040; }
+
+    @media (max-width: 600px) {
+      .dt-slide-body { padding: 20px 20px 18px; }
+      .dt-sc-grid    { grid-template-columns: 1fr; }
+    }
+
     /* ── Subtle top-border accent on hero ── */
     #hero::before {
       content: '';
@@ -496,12 +862,41 @@
   <!-- ─────────────────────────────── SECTION 1 — HERO -->
   <section id="hero">
     <div class="container">
-      <div class="label">BRN · ASX · Concept IR Audit — Gurjot Bains</div>
+      <div class="label">BRN · ASX · Concept IR Audit — Gurjot Barring</div>
       <h1>BrainChip can't tell you how much it earned.</h1>
       <p class="hero-sub">
         A $341M company. A retail-dominated register. And an investor deck that shows you a
         $163B market opportunity but won't tell you a single dollar of revenue.
       </p>
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────── STAT CALLOUTS -->
+  <section id="stats">
+    <div class="container">
+      <div class="stats-row">
+
+        <div class="stat-item">
+          <span class="stat-number">76.6%</span>
+          <span class="stat-label">voted against remuneration report, 2025 AGM</span>
+        </div>
+
+        <div class="stat-item">
+          <span class="stat-number">A$35M</span>
+          <span class="stat-label">raised by institutions in Nov 2025</span>
+        </div>
+
+        <div class="stat-item">
+          <span class="stat-number">A$2M</span>
+          <span class="stat-label">retail SPP cap offered weeks later</span>
+        </div>
+
+        <div class="stat-item">
+          <span class="stat-number">0</span>
+          <span class="stat-label">revenue figures disclosed in last 4 quarterlies</span>
+        </div>
+
+      </div>
     </div>
   </section>
 
@@ -540,6 +935,120 @@
             </p>
           </div>
         </div>
+
+        <!-- Fake slide mockup -->
+        <div class="fake-slide">
+          <div class="fake-slide-bar">
+            <div class="fake-slide-dots">
+              <span></span><span></span><span></span>
+            </div>
+            <span class="fake-slide-filename">BrainChip_Investor_Update_Q3FY25.pdf — Slide 3 of 18</span>
+          </div>
+          <div class="fake-slide-body">
+            <div class="fake-slide-title">BrainChip Investor Update — Q3 FY2025</div>
+
+            <div class="fake-slide-tam">
+              <span class="fake-slide-tam-number">$163B</span>
+              <span class="fake-slide-tam-label">Total Addressable Market — Edge AI &amp; Neuromorphic Computing (2030E)</span>
+            </div>
+
+            <div class="fake-slide-logos">
+              <span class="logo-box">ARM</span>
+              <span class="logo-box">NVIDIA</span>
+              <span class="logo-box">NASA</span>
+              <span class="logo-box">MERCEDES</span>
+              <span class="logo-box">QUALCOMM</span>
+            </div>
+
+            <div class="fake-slide-missing">
+              <div class="missing-field">
+                <span class="missing-field-label">Revenue disclosed</span>
+                <span class="missing-field-value">—</span>
+              </div>
+              <div class="missing-field">
+                <span class="missing-field-label">Paying customers named</span>
+                <span class="missing-field-value">—</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /fake slide -->
+
+        <!-- ── Decode the Deck ── -->
+        <div class="decode-toggle">
+          <div class="decode-toggle-header">
+            <button class="decode-btn" id="decodeBtn">🔍 Decode the Deck</button>
+          </div>
+
+          <!-- Panel 1: What BRN shows you -->
+          <div class="decode-panel is-visible" id="panelDeck">
+            <div class="dt-slide">
+              <div class="dt-slide-bar">
+                <div class="dt-dots"><span></span><span></span><span></span></div>
+                <span class="dt-filename">BrainChip_Investor_Update_Q3FY25.pdf — Slide 4 of 18</span>
+              </div>
+              <div class="dt-slide-body">
+                <div class="dt-slide-heading">BrainChip Investor Update — Q3 FY2025</div>
+
+                <span class="dt-tam-num">$163B</span>
+                <span class="dt-tam-label">Total Addressable Market — Edge AI &amp; Neuromorphic Computing (2030E)</span>
+
+                <div class="dt-partners-heading">Our Partners</div>
+                <div class="dt-logos">
+                  <span class="dt-logo">ARM</span>
+                  <span class="dt-logo">NVIDIA</span>
+                  <span class="dt-logo">NASA</span>
+                  <span class="dt-logo">MERCEDES</span>
+                  <span class="dt-logo">QUALCOMM</span>
+                </div>
+
+                <div class="dt-missing">
+                  <div class="dt-missing-row">
+                    <span class="dt-missing-key">Revenue disclosed</span>
+                    <span class="dt-missing-val">—</span>
+                  </div>
+                  <div class="dt-missing-row">
+                    <span class="dt-missing-key">Paying customers named</span>
+                    <span class="dt-missing-val">—</span>
+                  </div>
+                  <div class="dt-missing-row">
+                    <span class="dt-missing-key">Cash runway in plain English</span>
+                    <span class="dt-missing-val">—</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Panel 2: What you actually need -->
+          <div class="decode-panel is-hidden" id="panelScorecard">
+            <div class="dt-scorecard">
+              <div class="dt-scorecard-header">
+                <div class="dt-scorecard-title">What this update should have said</div>
+                <div class="dt-scorecard-sub">Same quarter. Same company. Different choices.</div>
+              </div>
+              <div class="dt-sc-grid">
+                <div class="dt-metric green">
+                  <span class="dt-metric-lbl">Cash &amp; Runway</span>
+                  <p class="dt-metric-val">A$13.2M cash on hand. At current burn, ~8 months runway. Next capital decision expected: Q2 FY2026.</p>
+                </div>
+                <div class="dt-metric red">
+                  <span class="dt-metric-lbl">Revenue</span>
+                  <p class="dt-metric-val">Not yet disclosed by the company. This field should show: quarterly revenue, YoY growth, and which segment it came from.</p>
+                </div>
+                <div class="dt-metric red">
+                  <span class="dt-metric-lbl">Design Wins</span>
+                  <p class="dt-metric-val">3 active design-win engagements disclosed. 0 named as paying. Investors cannot distinguish pipeline from revenue.</p>
+                </div>
+                <div class="dt-metric green">
+                  <span class="dt-metric-lbl">What's Next</span>
+                  <p class="dt-metric-val">Akida 2 sampling underway. CES 2026 showcase planned. No timeline given for first commercial shipment.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /decode-toggle -->
 
         <div class="problem-item">
           <span class="problem-number">02</span>
@@ -716,11 +1225,34 @@
       <hr class="rule" style="margin-bottom: 24px;" />
       <p>
         Concept IR audit produced for the InvestorHub GTM Internship hiring task &middot;
-        June 2026 &middot; Gurjot Bains &middot; Not affiliated with BrainChip Holdings
+        June 2026 &middot; Gurjot Barring &middot; Not affiliated with BrainChip Holdings
         &middot; All figures from public ASX disclosures
       </p>
     </div>
   </footer>
+
+
+  <script>
+    (function () {
+      var btn = document.getElementById('decodeBtn');
+      var panelDeck = document.getElementById('panelDeck');
+      var panelScorecard = document.getElementById('panelScorecard');
+      var showingDeck = true;
+
+      btn.addEventListener('click', function () {
+        if (showingDeck) {
+          panelDeck.classList.replace('is-visible', 'is-hidden');
+          panelScorecard.classList.replace('is-hidden', 'is-visible');
+          btn.textContent = '← See what BRN actually shows';
+        } else {
+          panelScorecard.classList.replace('is-visible', 'is-hidden');
+          panelDeck.classList.replace('is-hidden', 'is-visible');
+          btn.textContent = '🔍 Decode the Deck';
+        }
+        showingDeck = !showingDeck;
+      });
+    })();
+  </script>
 
 </body>
 </html>
